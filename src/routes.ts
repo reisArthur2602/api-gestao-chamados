@@ -1,5 +1,5 @@
 import { Router } from 'express';
-
+import * as user from './controllers/user';
 export const router = Router();
 
-router.get('/', (req, res) => console.log('Hello Word'));
+router.post('/register', user.Create);
