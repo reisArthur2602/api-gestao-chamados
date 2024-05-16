@@ -8,9 +8,41 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
+  id       String   @id @default(uuid())
+  email    String   @unique
   password String
   username String
-  role     String
+  admin    Boolean  @default(false)
+  clients  Client[]
+}
+
+model Client {
+  id       String  @id @default(uuid())
+  name     String
+  email    String
+  cpf      String
+  address  String
+  telefone String
+  userId   String
+  user     User    @relation(fields: [userId], references: [id])
+  Order    Order[]
+}
+
+model Order {
+  id        String     @id @default(uuid())
+  clientId  String
+  client    Client     @relation(fields: [clientId], references: [id])
+  subject   String
+  status    String
+  date      DateTime
+  responses Response[]
+}
+
+model Response {
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id])
+  title       String
+  description String
+  date        DateTime
 }
