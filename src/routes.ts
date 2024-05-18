@@ -3,3 +3,4 @@ import * as user from './controllers/user';
 export const router = Router();
 
 router.post('/register', user.Create);
+router.post('/login', user.Auth);
