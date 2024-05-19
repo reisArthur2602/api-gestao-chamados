@@ -22,7 +22,6 @@ export const ClientSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório').trim().toLowerCase(),
   email: z.string().email('Formato de email inválido').trim(),
   address: z.string().min(1, 'Endereço é obrigatório').trim().toLowerCase(),
-  userId: z.string().min(1, 'User ID é obrigatório'),
   telefone: z.string().min(11, 'Telefone deve conter 11 dígitos').trim(),
   cpf: z.string().min(11, 'CPF deve conter 11 dígitos').trim(),
 });
