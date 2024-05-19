@@ -10,7 +10,5 @@ router.post('/login', user.Auth);
 router.get('/me', isAuthenticated, user.Details);
 
 // clients
-router.post('/clients', client.Create);
-
-
-
+router.post('/clients', isAuthenticated, client.Create);
+router.get('/clients',  isAuthenticated, client.GetAll);
