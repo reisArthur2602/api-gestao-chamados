@@ -13,6 +13,7 @@ model User {
   password String
   username String
   clients  Client[]
+  orders   Order[]
 }
 
 model Client {
@@ -24,15 +25,17 @@ model Client {
   cpf      String  @unique
   telefone String  @unique
   user     User    @relation(fields: [userId], references: [id])
-  Order    Order[]
+  orders   Order[]
 }
 
 model Order {
   id          String   @id @default(uuid())
   clientId    String
+  userId      String
   subject     String
   status      String
   description String
   date        DateTime @default(now())
   client      Client   @relation(fields: [clientId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 }

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { OrderSchema } from '../utils/zod/schemas';
 import { create } from '../services/Order/create';
+import { getAll } from '../services/Order/getAll';
 
 export const Create: RequestHandler = async (req, res) => {
   const body = OrderSchema.safeParse(req.body);
@@ -12,7 +13,13 @@ export const Create: RequestHandler = async (req, res) => {
         message: err.message,
       }))
     );
+  const userId = req.userId;
+  const order = await create({ ...body.data, userId });
+  return res.json(order);
+};
 
-  const order = await create(body.data);
-  return res.json(order)
+export const GetAll: RequestHandler = async (req, res) => {
+  const userId = req.userId;
+  const orders = await getAll(userId);
+  return res.json(orders);
 };
