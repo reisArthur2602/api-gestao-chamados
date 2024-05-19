@@ -12,7 +12,8 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
   const [, token] = authToken.split(' ');
 
   try {
-    const { sub } = verify(token, process.env.JWT_SECRET);
+    const { sub } = verify(token, process.env.JWT_SECRET) as Payload;
+    req.userId = sub;
     return next();
   } catch (error) {
     return res.json({ message: 'o usuário não está autenticado' });
