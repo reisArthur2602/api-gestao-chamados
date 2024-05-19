@@ -12,29 +12,26 @@ model User {
   email    String   @unique
   password String
   username String
-  admin    Boolean  @default(false)
   clients  Client[]
 }
 
 model Client {
   id       String  @id @default(uuid())
   name     String
-  email    String
+  email    String @unique
   address  String
   userId   String
-  cpf      Int
-  telefone Int
+  cpf      String @unique 
+  telefone String @unique
   user     User    @relation(fields: [userId], references: [id])
   Order    Order[]
 }
 
 model Order {
-  id        String     @id @default(uuid())
-  clientId  String
-  subject   String
-  status    String
-  date      DateTime
-  client    Client     @relation(fields: [clientId], references: [id])
+  id       String   @id @default(uuid())
+  clientId String
+  subject  String
+  status   String
+  date     DateTime @default(now())
+  client   Client   @relation(fields: [clientId], references: [id])
 }
-
-
