@@ -13,7 +13,6 @@ export type UserData = {
 export type AuthProps = {
   id: string;
   email: string;
-
   username: string;
 };
 export type AuthData = {

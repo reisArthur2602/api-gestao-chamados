@@ -8,11 +8,11 @@ export const create = async (data: UserProps): Promise<UserData | false> => {
 
     const user = await db.user.create({
       data: { ...data, password: passwordHash },
-      select: {
-        id: true,
+      select:{
+        id:true,
         email: true,
-        username: true,
-      },
+        username:true
+      }
     });
     return user;
   } catch (error) {
