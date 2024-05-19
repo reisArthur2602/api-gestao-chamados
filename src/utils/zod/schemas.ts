@@ -42,3 +42,36 @@ export const OrderSchema = z.object({
     .default('open'),
   description: z.string().min(1, 'Descrição é obrigatória'),
 });
+
+export const UpdateOrderSchema = z.object({
+  id: z.string().min(1, 'ID é obrigatório'),
+  subject: z
+    .enum([
+      'network-troubleshooting',
+      'hardware-troubleshooting',
+      'os-support',
+      'inventory-management',
+      'internet-connectivity',
+      'os-installation',
+      'server-setup',
+    ])
+    .optional(),
+  status: z
+    .enum(['open', 'in-progress', 'on-hold', 'resolved', 'cancelled'])
+    .default('open')
+    .optional(),
+  description: z.string().optional(),
+});
+
+export const UpdateClientSchema = z.object({
+  id: z.string().min(1, 'ID é obrigatório'),
+  name: z.string().trim().toLowerCase().optional(),
+  email: z.string().email('Formato de email inválido').trim().optional(),
+  address: z.string().trim().toLowerCase().optional(),
+  telefone: z
+    .string()
+    .length(11, 'Telefone deve conter 11 dígitos')
+    .trim()
+    .optional(),
+  cpf: z.string().length(11, 'CPF deve conter 11 dígitos').trim().optional(),
+});

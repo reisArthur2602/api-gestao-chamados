@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express';
-import { ClientSchema } from '../utils/zod/schemas';
+import { ClientSchema, UpdateClientSchema } from '../utils/zod/schemas';
 import { create } from '../services/Client/create';
 import { getAll } from '../services/Client/getAll';
 import { deleteClient } from '../services/Client/deleteClient';
+import { update } from '../services/Client/update';
 
 export const Create: RequestHandler = async (req, res) => {
   const body = ClientSchema.safeParse(req.body);
@@ -33,4 +34,21 @@ export const Delete: RequestHandler = async (req, res) => {
   const { id } = req.params;
   await deleteClient(id);
   return res.json({ message: `O Cliente ${id} foi deletado com êxito` });
+};
+
+export const Update: RequestHandler = async (req, res) => {
+  const body = UpdateClientSchema.safeParse(req.body);
+
+  if (!body.success)
+    return res.json(
+      body.error.errors.map((err) => ({
+        field: err.path[0],
+        message: err.message,
+      }))
+    );
+
+  await update(body.data);
+  return res.json({
+    message: `O Cliente ${body.data.id} foi atualizado com êxito`,
+  });
 };

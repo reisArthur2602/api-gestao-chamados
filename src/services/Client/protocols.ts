@@ -1,7 +1,9 @@
-import { Prisma } from "@prisma/client";
-import { db } from "../../database/Client";
+import { Prisma } from '@prisma/client';
+import { db } from '../../database/Client';
 
-export type ClientProps = Prisma.Args<
+export type ClientProps = Prisma.Args<typeof db.client, 'create'>['data'];
+
+export type UpdateClientProps = Prisma.Args<
   typeof db.client,
-  'create'
->['data'];
+  'update'
+>['data'] & { id: string };
