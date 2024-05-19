@@ -13,6 +13,7 @@ router.get('/me', isAuthenticated, user.Details);
 // clients
 router.post('/client', isAuthenticated, client.Create);
 router.get('/client', isAuthenticated, client.GetAll);
+router.delete('/client/:id', isAuthenticated, client.Delete);
 
 // order
 router.post('/order', isAuthenticated, order.Create);
