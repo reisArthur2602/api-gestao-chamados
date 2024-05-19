@@ -18,3 +18,4 @@ router.delete('/client/:id', isAuthenticated, client.Delete);
 // order
 router.post('/order', isAuthenticated, order.Create);
 router.get('/order', isAuthenticated, order.GetAll);
+router.delete('/order/:id', isAuthenticated, order.Delete);
