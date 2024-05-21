@@ -4,6 +4,7 @@ import { AuthUserSchema, CreateUserSchema } from '../utils/zod/schemas';
 import { compare } from 'bcryptjs';
 import { auth } from '../services/User/auth';
 import { db } from '../database/Client';
+import { details } from '../services/User/details';
 
 export const Create: RequestHandler = async (req, res) => {
   const body = CreateUserSchema.safeParse(req.body);
@@ -44,5 +45,8 @@ export const Auth: RequestHandler = async (req, res) => {
 };
 
 export const Details: RequestHandler = async (req, res) => {
-  return res.json({ ok: true });
+  const user_id = req.userId;
+
+  const user = await details(user_id);
+  return res.json(user);
 };
