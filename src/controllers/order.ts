@@ -8,13 +8,8 @@ import { update } from '../services/Order/update';
 export const Create: RequestHandler = async (req, res) => {
   const body = OrderSchema.safeParse(req.body);
 
-  if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+  if (!body.success) return res.json(body.error.errors.map((err) => ({ error: err.message })));
+  
   const userId = req.userId;
   const order = await create({ ...body.data, userId });
   return res.json(order);
@@ -33,13 +28,8 @@ export const Delete: RequestHandler = async (req, res) => {
 export const Update: RequestHandler = async (req, res) => {
   const body = UpdateOrderSchema.safeParse(req.body);
 
-  if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+  if (!body.success) return res.json(body.error.errors.map((err) => ({ error: err.message })));
+   
   await update(body.data);
   return res.json({
     message: `O Chamado ${body.data.id} foi atualizado com êxito`,

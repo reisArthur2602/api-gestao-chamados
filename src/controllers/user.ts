@@ -9,13 +9,8 @@ import { details } from '../services/User/details';
 export const Create: RequestHandler = async (req, res) => {
   const body = CreateUserSchema.safeParse(req.body);
 
-  if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+  if (!body.success) return res.json(body.error.errors.map((err) => ({ error: err.message })));
+   
 
   const user = await create(body.data);
   if (!user) return res.json({ error: 'Este email já está em uso' });
@@ -27,12 +22,7 @@ export const Auth: RequestHandler = async (req, res) => {
   const body = AuthUserSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+    return res.json(body.error.errors.map((err) => ({ error: err.message })));
 
   const user = await db.user.findFirst({ where: { email: body.data.email } });
   if (!user) return res.json({ error: 'Usuário não encontrado' });

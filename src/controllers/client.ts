@@ -9,12 +9,8 @@ export const Create: RequestHandler = async (req, res) => {
   const body = ClientSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+    return res.json(body.error.errors.map((err) => ({ error: err.message })));
+
   const userId = req.userId;
 
   const client = await create({ ...body.data, userId });
@@ -40,12 +36,7 @@ export const Update: RequestHandler = async (req, res) => {
   const body = UpdateClientSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.json(
-      body.error.errors.map((err) => ({
-        field: err.path[0],
-        message: err.message,
-      }))
-    );
+    return res.json(body.error.errors.map((err) => ({ error: err.message })));
 
   await update(body.data);
   return res.json({
