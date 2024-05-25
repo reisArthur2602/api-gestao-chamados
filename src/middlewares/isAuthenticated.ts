@@ -7,7 +7,8 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
   if (!process.env.JWT_SECRET) return false;
 
   const authToken = req.headers.authorization;
-  if (!authToken) return res.json({ error: 'o usuário não está autenticado' });
+  if (!authToken)
+    return res.json({ notallowed: 'o usuário não está autenticado' });
 
   const [, token] = authToken.split(' ');
 
@@ -16,6 +17,6 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
     req.userId = sub;
     return next();
   } catch (error) {
-    return res.json({ message: 'o usuário não está autenticado' });
+    return res.json({ notallowed: 'o usuário não está autenticado' });
   }
 };

@@ -1,33 +1,26 @@
 import { z } from 'zod';
 
 export const CreateUserSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'O email é obrigatório')
-    .email('O email fornecido não é válido.')
-    .trim(),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.'),
-  username: z.string().min(1, 'O username é obrigatório').trim(),
+  email: z.string().min(1).email().trim(),
+  password: z.string().min(6),
+  username: z.string().min(1).trim(),
 });
 
 export const AuthUserSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'O email é obrigatório')
-    .email('O email fornecido não é válido.'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.'),
+  email: z.string().min(1).email(),
+  password: z.string().min(6),
 });
 
 export const ClientSchema = z.object({
-  name: z.string().min(1, 'Nome é obrigatório').trim().toLowerCase(),
-  email: z.string().email('Formato de email inválido').trim(),
-  address: z.string().min(1, 'Endereço é obrigatório').trim().toLowerCase(),
-  telefone: z.string().length(11, 'Telefone deve conter 11 dígitos').trim(),
-  cpf: z.string().length(11, 'CPF deve conter 11 dígitos').trim(),
+  name: z.string().min(1).trim().toLowerCase(),
+  email: z.string().email().trim(),
+  address: z.string().min(1).trim().toLowerCase(),
+  telefone: z.string().length(11).trim(),
+  cpf: z.string().length(11).trim(),
 });
 
 export const OrderSchema = z.object({
-  clientId: z.string().min(1, 'clientId é obrigatório'),
+  clientId: z.string().min(1),
   subject: z.enum([
     'network-troubleshooting',
     'hardware-troubleshooting',
@@ -40,11 +33,11 @@ export const OrderSchema = z.object({
   status: z
     .enum(['open', 'in-progress', 'on-hold', 'resolved', 'cancelled'])
     .default('open'),
-  description: z.string().min(1, 'Descrição é obrigatória'),
+  description: z.string().min(1),
 });
 
 export const UpdateOrderSchema = z.object({
-  id: z.string().min(1, 'ID é obrigatório'),
+  id: z.string().min(1),
   subject: z
     .enum([
       'network-troubleshooting',
@@ -64,14 +57,10 @@ export const UpdateOrderSchema = z.object({
 });
 
 export const UpdateClientSchema = z.object({
-  id: z.string().min(1, 'ID é obrigatório'),
+  id: z.string().min(1),
   name: z.string().trim().toLowerCase().optional(),
-  email: z.string().email('Formato de email inválido').trim().optional(),
+  email: z.string().email().trim().optional(),
   address: z.string().trim().toLowerCase().optional(),
-  telefone: z
-    .string()
-    .length(11, 'Telefone deve conter 11 dígitos')
-    .trim()
-    .optional(),
-  cpf: z.string().length(11, 'CPF deve conter 11 dígitos').trim().optional(),
+  telefone: z.string().length(11).trim().optional(),
+  cpf: z.string().length(11).trim().optional(),
 });

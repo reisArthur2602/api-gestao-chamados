@@ -9,13 +9,12 @@ export const Create: RequestHandler = async (req, res) => {
   const body = ClientSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.json(body.error.errors.map((err) => ({ error: err.message })));
+    return res.json({ error: 'Preencha os campos corretamente' });
 
   const userId = req.userId;
 
   const client = await create({ ...body.data, userId });
-  if (!client)
-    return res.json({ error: 'Este email/cpf/telefone já está em uso' });
+  if (!client) return res.json({ error: 'Email/CPF/Telefone já está em uso' });
 
   return res.json(client);
 };
@@ -36,7 +35,7 @@ export const Update: RequestHandler = async (req, res) => {
   const body = UpdateClientSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.json(body.error.errors.map((err) => ({ error: err.message })));
+    return res.json({ error: 'Preencha os campos corretamente' });
 
   await update(body.data);
   return res.json({

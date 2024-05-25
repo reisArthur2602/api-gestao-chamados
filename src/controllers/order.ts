@@ -8,7 +8,7 @@ import { update } from '../services/Order/update';
 export const Create: RequestHandler = async (req, res) => {
   const body = OrderSchema.safeParse(req.body);
 
-  if (!body.success) return res.json(body.error.errors.map((err) => ({ error: err.message })));
+  if (!body.success)  return res.json({ error: 'Preencha os campos corretamente' });
   
   const userId = req.userId;
   const order = await create({ ...body.data, userId });
@@ -28,7 +28,7 @@ export const Delete: RequestHandler = async (req, res) => {
 export const Update: RequestHandler = async (req, res) => {
   const body = UpdateOrderSchema.safeParse(req.body);
 
-  if (!body.success) return res.json(body.error.errors.map((err) => ({ error: err.message })));
+  if (!body.success)  return res.json({ error: 'Preencha os campos corretamente' });
    
   await update(body.data);
   return res.json({
