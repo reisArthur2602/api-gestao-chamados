@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import { verify } from 'jsonwebtoken';
 interface Payload {
   sub: string;
@@ -8,7 +9,7 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
 
   const authToken = req.headers.authorization;
   if (!authToken)
-    return res.json({ notallowed: 'o usuário não está autenticado' });
+    return res.status(StatusCodes.UNAUTHORIZED).json({ notallowed: 'o usuário não está autenticado' });
 
   const [, token] = authToken.split(' ');
 
@@ -17,6 +18,6 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
     req.userId = sub;
     return next();
   } catch (error) {
-    return res.json({ notallowed: 'o usuário não está autenticado' });
+    return res.status(StatusCodes.UNAUTHORIZED).json({ notallowed: 'o usuário não está autenticado' });
   }
 };
