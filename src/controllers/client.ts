@@ -1,16 +1,16 @@
 import { RequestHandler } from 'express';
 import { ClientSchema, UpdateClientSchema } from '../utils/zod/schemas';
-import { create } from '../services/Client/create';
-import { getAll } from '../services/Client/getAll';
-import { deleteClient } from '../services/Client/deleteClient';
-import { update } from '../services/Client/update';
+import { create } from '../repositories/Client/create';
+import { getAll } from '../repositories/Client/getAll';
+import { deleteClient } from '../repositories/Client/deleteClient';
+import { update } from '../repositories/Client/update';
 import { StatusCodes } from 'http-status-codes';
 
 export const Create: RequestHandler = async (req, res) => {
   const body = ClientSchema.safeParse(req.body);
 
   if (!body.success)
-    return res.status(StatusCodes.CONFLICT).status(StatusCodes.CONFLICT).json({ error: 'Preencha os campos corretamente' });
+    return res.status(StatusCodes.CONFLICT).json({ error: 'Preencha os campos corretamente' });
 
   const userId = req.userId;
 

@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 import { OrderSchema, UpdateOrderSchema } from '../utils/zod/schemas';
-import { create } from '../services/Order/create';
-import { getAll } from '../services/Order/getAll';
-import { deleteOrder } from '../services/Order/deleteOrder';
-import { update } from '../services/Order/update';
+import { create } from '../repositories/Order/create';
+import { getAll } from '../repositories/Order/getAll';
+import { deleteOrder } from '../repositories/Order/deleteOrder';
+import { update } from '../repositories/Order/update';
 import { StatusCodes } from 'http-status-codes';
 
 export const Create: RequestHandler = async (req, res) => {
