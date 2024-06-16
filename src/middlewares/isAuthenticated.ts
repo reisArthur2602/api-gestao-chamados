@@ -9,7 +9,9 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
 
   const authToken = req.headers.authorization;
   if (!authToken)
-    return res.status(StatusCodes.UNAUTHORIZED).json({ notallowed: 'o usuário não está autenticado' });
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json('O usuário não está autenticado');
 
   const [, token] = authToken.split(' ');
 
@@ -18,6 +20,8 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
     req.userId = sub;
     return next();
   } catch (error) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({ notallowed: 'o usuário não está autenticado' });
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json('o usuário não está autenticado');
   }
 };
