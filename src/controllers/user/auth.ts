@@ -1,8 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserData, UserProps } from '../../models/user';
-import { HttpRequest, HttpResponse } from '../protocols';
-import { AuthUserSchema } from '../../utils/zod/schemas';
-import { AuthUserRepository} from '../../repositories/user/auth.repository';
+import { AuthUserSchema, UserData, UserProps } from '../../models/user';
+import { HttpRequest, HttpResponse } from '../http';
+import { AuthUserRepository} from '../../repositories/user/auth';
 
 export const AuthUserController = async (
   params: HttpRequest<UserProps>
@@ -11,14 +10,14 @@ export const AuthUserController = async (
     const body = AuthUserSchema.safeParse(params.body);
     if (!body.success)
       return {
-        statusCode: StatusCodes.CONFLICT,
+        statusCode: StatusCodes.BAD_REQUEST,
         body: 'Preencha os campos corretamente',
       };
     const user = await AuthUserRepository(body.data);
-    return { statusCode: StatusCodes.CREATED, body: user };
+    return { statusCode: StatusCodes.ACCEPTED, body: user };
   } catch (error: any) {
     return {
-      statusCode: StatusCodes.UNAUTHORIZED,
+      statusCode: StatusCodes.BAD_REQUEST,
       body: error.message,
     };
   }

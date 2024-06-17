@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type UserProps = {
   email: string;
   password: string;
@@ -9,3 +11,14 @@ export type UserData = {
   username: string;
   token: string;
 };
+
+export const CreateUserSchema = z.object({
+  email: z.string().min(1).email().trim(),
+  password: z.string().min(6),
+  username: z.string().min(1).trim(),
+});
+
+export const AuthUserSchema = z.object({
+  email: z.string().min(1).email(),
+  password: z.string().min(6),
+});

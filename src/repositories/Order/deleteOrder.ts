@@ -1,5 +1,13 @@
 import { db } from '../../database/Client';
+import { OrderData } from '../../models/order';
 
-export const deleteOrder = async (id: string) => {
-  await db.order.delete({ where: { id } });
+
+export const DeleteOrderRepository = async (
+  id: string
+): Promise<OrderData> => {
+  const order = await db.order.delete({ where: { id } }).catch(() => {
+    throw new Error('Nenhum chamado foi encontrado');
+  });
+
+  return order;
 };

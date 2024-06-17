@@ -1,3 +1,3 @@
-export * from './user.routes';
-export * from './client.routes';
-export * from './order.routes';
+export * from './user';
+export * from './client';
+export * from './order';

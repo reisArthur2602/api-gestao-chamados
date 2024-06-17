@@ -22,6 +22,6 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
   } catch (error) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json('o usuário não está autenticado');
+      .json('O usuário não está autenticado');
   }
 };

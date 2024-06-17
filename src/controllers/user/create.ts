@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserData, UserProps } from '../../models/user';
-import { CreateUserSchema } from '../../utils/zod/schemas';
-import { HttpRequest, HttpResponse } from '../protocols';
-import { CreateUserRepository } from '../../repositories/user/create.repository';
+import { CreateUserSchema, UserData, UserProps } from '../../models/user';
+
+import { HttpRequest, HttpResponse } from '../http';
+import { CreateUserRepository } from '../../repositories/user/create';
 
 export const CreateUserController = async (
   params: HttpRequest<UserProps>
@@ -11,7 +11,7 @@ export const CreateUserController = async (
     const body = CreateUserSchema.safeParse(params.body);
     if (!body.success)
       return {
-        statusCode: StatusCodes.CONFLICT,
+        statusCode: StatusCodes.BAD_REQUEST,
         body: 'Preencha os campos corretamente',
       };
 
@@ -19,7 +19,7 @@ export const CreateUserController = async (
     return { statusCode: StatusCodes.CREATED, body: user };
   } catch (error: any) {
     return {
-      statusCode: StatusCodes.CONFLICT,
+      statusCode: StatusCodes.BAD_REQUEST,
       body: error.message,
     };
   }

@@ -1,15 +1,16 @@
-import { Client } from '@prisma/client';
 import { db } from '../../database/Client';
-import { ClientProps } from './protocols';
 
-export const create = async (data: ClientProps): Promise<Client | false> => {
-  try {
-    const client = await db.client.create({
-      data: data,
+import { ClientData, ClientProps } from '../../models/client';
+
+export const CreateClientRepository = async (
+  data: ClientProps
+): Promise<ClientData> => {
+  return await db.client
+    .create({
+      data,
+    })
+    .then((res) => res)
+    .catch(() => {
+      throw new Error('Email/CPF/Telefone já está em uso');
     });
-    return client;
-  } catch (error) {
-    console.error('Erro ao cadastrar cliente', error);
-    return false;
-  }
 };
