@@ -15,6 +15,7 @@ export const CreateOrderController = async (
       };
     const order = await CreateOrderRepository(body.data);
     return { statusCode: StatusCodes.CREATED, body: order };
+    
   } catch (error: any) {
     return {
       statusCode: StatusCodes.BAD_REQUEST,

@@ -13,8 +13,15 @@ export type OrderData = {
 export type OrderProps = {
   clientId: string;
   userId: string;
-  subject: string;
-  status: string;
+  subject:
+    | 'network-troubleshooting'
+    | 'hardware-troubleshooting'
+    | 'os-support'
+    | 'inventory-management'
+    | 'internet-connectivity'
+    | 'os-installation'
+    | 'server-setup';
+  status: 'open' | 'in-progress' | 'resolved';
   description: string;
 };
 
@@ -52,14 +59,9 @@ export const UpdateOrderSchema = z.object({
       'server-setup',
     ])
     .optional(),
-  status: z
-    .enum(['open', 'in-progress', 'resolved'])
-    .default('open')
-    .optional(),
+  status: z.enum(['open', 'in-progress', 'resolved']).optional(),
 });
 
 export const FilterOrderSchema = z.object({
-  status: z
-    .enum(['open', 'in-progress', 'resolved'])
-    .default('open')
+  status: z.enum(['open', 'in-progress', 'resolved']),
 });

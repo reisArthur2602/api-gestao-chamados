@@ -6,15 +6,15 @@ import { FilterOrderRepository } from '../../repositories/order/filter';
 export const FilterOrderController = async (
   params: HttpRequest<any>
 ): Promise<HttpResponse<OrderData[] | string>> => {
-  const body = FilterOrderSchema.safeParse({ ...params.query });
-  console.log(body.data);
-  if (!body.success)
-    return {
-      statusCode: StatusCodes.BAD_REQUEST,
-      body: 'Preencha os campos corretamente',
-    };
-  const order = await FilterOrderRepository(body.data);
   try {
+    const body = FilterOrderSchema.safeParse({ ...params.query });
+    console.log(body.data);
+    if (!body.success)
+      return {
+        statusCode: StatusCodes.BAD_REQUEST,
+        body: 'Preencha os campos corretamente',
+      };
+    const order = await FilterOrderRepository(body.data);
     return {
       statusCode: StatusCodes.OK,
       body: order,
