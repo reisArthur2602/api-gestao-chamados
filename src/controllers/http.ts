@@ -5,6 +5,7 @@ export type HttpResponse<T> = {
 
 export type HttpRequest<B> = {
   params?: any;
+  query?: any;
   headers?: any;
   body?: B;
   userId?: string;

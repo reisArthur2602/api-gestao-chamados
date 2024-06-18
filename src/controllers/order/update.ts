@@ -1,23 +1,29 @@
 import { StatusCodes } from 'http-status-codes';
 import { HttpRequest, HttpResponse } from '../http';
-import { OrderData, OrderProps } from '../../models/order';
+import {
+  OrderData,
+  UpdateOrderProps,
+  UpdateOrderSchema,
+} from '../../models/order';
 import { UpdateOrderRepository } from '../../repositories/order/update';
 
 export const UpdateOrderController = async (
-  params: HttpRequest<Partial<OrderProps>>
+  params: HttpRequest<UpdateOrderProps>
 ): Promise<HttpResponse<OrderData | string>> => {
   try {
-    const body = params.body;
     const id = params.params as string;
 
-    if (!id || !body) {
+    const body = UpdateOrderSchema.safeParse({ ...params.body, id });
+    console.log(body , params.body);
+    if (!body.success) {
       return {
         statusCode: StatusCodes.BAD_REQUEST,
         body: 'Preencha os campos corretamente',
       };
     }
 
-    const order = await UpdateOrderRepository(id, body);
+    const order = await UpdateOrderRepository(id, body.data);
+
     return { statusCode: StatusCodes.OK, body: order };
   } catch (error: any) {
     return {

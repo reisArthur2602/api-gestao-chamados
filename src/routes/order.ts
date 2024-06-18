@@ -6,6 +6,7 @@ import {
   GetAllOrderController,
   UpdateOrderController,
 } from '../controllers/order';
+import { FilterOrderController } from '../controllers/order/filter';
 
 export const OrderRoutes = Router();
 
@@ -19,6 +20,13 @@ OrderRoutes.post('/order', isAuthenticated, async (req, res) => {
 OrderRoutes.get('/order', isAuthenticated, async (req, res) => {
   const { body, statusCode } = await GetAllOrderController({
     userId: req.userId,
+  });
+  return res.status(statusCode).json(body);
+});
+
+OrderRoutes.get('/order/filter', isAuthenticated, async (req, res) => {
+  const { body, statusCode } = await FilterOrderController({
+    query: req.query,
   });
   return res.status(statusCode).json(body);
 });
