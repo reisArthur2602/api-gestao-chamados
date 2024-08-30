@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { ClientData } from '../../models/client';
+import { ClientData } from '../../domain/models/client';
 
 export const deleteClientRepository = async (
   id: string

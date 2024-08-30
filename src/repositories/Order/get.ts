@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { OrderData } from '../../models/order';
+import { OrderData } from '../../domain/models/order';
 
 export const GetAllOrderRepository = async (
   userId: string

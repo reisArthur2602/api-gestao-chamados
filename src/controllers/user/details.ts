@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserData } from '../../models/user';
+import { UserData } from '../../domain/models/user';
 import { HttpRequest, HttpResponse } from '../http';
 import { DetailsUserRepository } from '../../repositories/user/details';
 

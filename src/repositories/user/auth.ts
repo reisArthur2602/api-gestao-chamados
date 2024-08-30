@@ -2,7 +2,7 @@ import { sign } from 'jsonwebtoken';
 
 import { db } from '../../database/Client';
 import { compare } from 'bcryptjs';
-import { UserData, UserProps } from '../../models/user';
+import { UserData, UserProps } from '../../domain/models/user';
 
 export const AuthUserRepository = async (
   data: Omit<UserProps, 'username'>

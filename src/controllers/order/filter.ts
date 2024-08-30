@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { HttpRequest, HttpResponse } from '../http';
-import { FilterOrderSchema, OrderData, OrderProps } from '../../models/order';
+import { FilterOrderSchema, OrderData, OrderProps } from '../../domain/models/order';
 import { FilterOrderRepository } from '../../repositories/order/filter';
 
 export const FilterOrderController = async (

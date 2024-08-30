@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-import { ClientData } from '../../models/client';
+import { ClientData } from '../../domain/models/client';
 import { HttpRequest, HttpResponse } from '../http';
-import { GetAllClientRepository } from '../../repositories/client/get';
+import { GetAllClientRepository } from '../../repositories/Client/get';
 
 export const GetAllClientController = async (
   params: HttpRequest<any>

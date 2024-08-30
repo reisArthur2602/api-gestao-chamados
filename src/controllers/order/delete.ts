@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { HttpRequest, HttpResponse } from '../http';
-import { OrderData } from '../../models/order';
+import { OrderData } from '../../domain/models/order';
 import { DeleteOrderRepository } from '../../repositories/order/deleteOrder';
 
 export const DeleteOrderController = async (

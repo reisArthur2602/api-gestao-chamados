@@ -3,9 +3,9 @@ import {
   ClientData,
   UpdateClientProps,
   UpdateClientSchema,
-} from '../../models/client';
+} from '../../domain/models/client';
 import { HttpRequest, HttpResponse } from '../http';
-import { UpdateClientRepository } from '../../repositories/client/update';
+import { UpdateClientRepository } from '../../repositories/Client/update';
 
 export const UpdateClientController = async (
   params: HttpRequest<UpdateClientProps>

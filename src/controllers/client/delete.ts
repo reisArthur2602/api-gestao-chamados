@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { HttpRequest, HttpResponse } from '../http';
-import { ClientData } from '../../models/client';
-import { deleteClientRepository } from '../../repositories/client/delete';
+import { ClientData } from '../../domain/models/client';
+import { deleteClientRepository } from '../../repositories/Client/delete';
 
 export const DeleteClientController = async (
   params: HttpRequest<any>

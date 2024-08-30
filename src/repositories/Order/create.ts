@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { OrderData, OrderProps } from '../../models/order';
+import { OrderData, OrderProps } from '../../domain/models/order';
 
 export const CreateOrderRepository = async (
   data: OrderProps

@@ -4,7 +4,7 @@ import {
   OrderData,
   UpdateOrderProps,
   UpdateOrderSchema,
-} from '../../models/order';
+} from '../../domain/models/order';
 import { UpdateOrderRepository } from '../../repositories/order/update';
 
 export const UpdateOrderController = async (

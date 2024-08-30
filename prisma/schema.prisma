@@ -20,10 +20,10 @@ model Client {
   id       String  @id @default(uuid())
   name     String
   email    String  @unique
-  address  String
-  userId   String
   cpf      String  @unique
+  address  String
   telefone String  @unique
+  userId   String
   user     User    @relation(fields: [userId], references: [id])
   orders   Order[]
 }
@@ -31,11 +31,11 @@ model Client {
 model Order {
   id          String   @id @default(uuid())
   clientId    String
-  userId      String
   subject     String
   status      String
-  description String
   date        DateTime @default(now())
+  description String
+  userId      String
   client      Client   @relation(fields: [clientId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
 }

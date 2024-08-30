@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { HttpRequest, HttpResponse } from '../http';
 import { CreateOrderRepository } from '../../repositories/order/create';
-import { OrderData, OrderProps, OrderSchema } from '../../models/order';
+import { OrderData, OrderProps, OrderSchema } from '../../domain/models/order';
 
 export const CreateOrderController = async (
   params: HttpRequest<OrderProps>

@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { UserData, UserProps } from '../../models/user';
+import { UserData, UserProps } from '../../domain/models/user';
 
 import { hash } from 'bcryptjs';
 

@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { CreateUserSchema, UserData, UserProps } from '../../models/user';
+import { CreateUserSchema, UserData, UserProps } from '../../domain/models/user';
 
 import { HttpRequest, HttpResponse } from '../http';
 import { CreateUserRepository } from '../../repositories/user/create';

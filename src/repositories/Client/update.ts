@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { ClientData, UpdateClientProps } from '../../models/client';
+import { ClientData, UpdateClientProps } from '../../domain/models/client';
 
 export const UpdateClientRepository = async (
   id: string,

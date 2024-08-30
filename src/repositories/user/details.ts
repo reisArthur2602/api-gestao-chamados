@@ -1,5 +1,5 @@
 import { db } from '../../database/Client';
-import { UserData } from '../../models/user';
+import { UserData } from '../../domain/models/user';
 
 export const DetailsUserRepository = async (
   id: string
