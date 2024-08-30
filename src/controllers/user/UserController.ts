@@ -11,6 +11,7 @@ import {
 } from '../../helpers/error';
 import UserRepository from '../../repository/user/UserRepositories';
 import { sign } from 'jsonwebtoken';
+import { IFindById } from '../../domain/models/user/IFindById';
 
 class UserController {
     constructor() {
@@ -58,6 +59,11 @@ class UserController {
             user,
             token,
         };
+    }
+
+    async details({ id }: IFindById): Promise<IUser | null> {
+        const user = await this.userRepository.findbyId({ id });
+        return user;
     }
 }
 export default UserController;

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
-import { DetailsUserController } from '../controllers/user';
 import { z } from 'zod';
 import UserController from '../controllers/user/UserController';
 import { StatusCodes } from 'http-status-codes';
@@ -34,9 +33,7 @@ UserRoutes.post('/session', async (request, response) => {
     return response.status(StatusCodes.OK).json(user);
 });
 
-UserRoutes.get('/me', isAuthenticated, async (req, res) => {
-    const { body, statusCode } = await DetailsUserController({
-        userId: req.userId,
-    });
-    return res.status(statusCode).json(body);
+UserRoutes.get('/me', isAuthenticated, async (request, response) => {
+    const user = await userController.details({ id: request.userId });
+    return response.status(StatusCodes.OK).json(user);
 });
