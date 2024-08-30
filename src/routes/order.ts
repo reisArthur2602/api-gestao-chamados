@@ -1,10 +1,6 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
-import {
-    DeleteOrderController,
-    GetAllOrderController,
-    UpdateOrderController,
-} from '../controllers/order';
+import { UpdateOrderController } from '../controllers/order';
 import { FilterOrderController } from '../controllers/order/filter';
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
@@ -29,11 +25,11 @@ OrderRoutes.post('/order', isAuthenticated, async (request, response) => {
     return response.status(StatusCodes.CREATED).json(order);
 });
 
-OrderRoutes.get('/order', isAuthenticated, async (req, res) => {
-    const { body, statusCode } = await GetAllOrderController({
-        userId: req.userId,
+OrderRoutes.get('/order', isAuthenticated, async (request, response) => {
+    const orders = await orderController.list({
+        userId: request.userId,
     });
-    return res.status(statusCode).json(body);
+    return response.status(StatusCodes.OK).json(orders);
 });
 
 OrderRoutes.get('/order/filter', isAuthenticated, async (req, res) => {

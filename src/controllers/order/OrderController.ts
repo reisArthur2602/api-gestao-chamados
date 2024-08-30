@@ -1,5 +1,6 @@
 import { ICreateOrder } from '../../domain/models/order/ICreateOrder';
 import { IDeleteOrder } from '../../domain/models/order/IDeleteOrder';
+import { IListOrders } from '../../domain/models/order/IListOrders';
 import { IOrder } from '../../domain/models/order/IOrder';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { IOrderRepository } from '../../domain/repository/IOrderRepository';
@@ -39,6 +40,10 @@ class OrderController {
     async delete({ id }: IDeleteOrder): Promise<IOrder> {
         const order = this.orderRepository.delete({ id });
         return order;
+    }
+    async list({ userId }: IListOrders): Promise<IOrder[] | []> {
+        const orders = this.orderRepository.list({ userId });
+        return orders;
     }
 }
 export default OrderController;
