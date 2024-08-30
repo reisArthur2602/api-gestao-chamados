@@ -1,11 +1,11 @@
 import { ICreateOrder } from '../../domain/models/order/ICreateOrder';
+import { IDeleteOrder } from '../../domain/models/order/IDeleteOrder';
 import { IOrder } from '../../domain/models/order/IOrder';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { IOrderRepository } from '../../domain/repository/IOrderRepository';
 import { NotFoundError } from '../../helpers/error';
 import ClientRepository from '../../repository/client/ClientRepositories';
 import OrderRepository from '../../repository/order/OrderRepository';
-
 
 class OrderController {
     constructor() {
@@ -33,6 +33,11 @@ class OrderController {
             subject,
             userId,
         });
+        return order;
+    }
+
+    async delete({ id }: IDeleteOrder): Promise<IOrder> {
+        const order = this.orderRepository.delete({ id });
         return order;
     }
 }

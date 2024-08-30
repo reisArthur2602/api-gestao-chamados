@@ -51,9 +51,9 @@ OrderRoutes.patch('/order/:id', isAuthenticated, async (req, res) => {
     return res.status(statusCode).json(body);
 });
 
-OrderRoutes.delete('/order/:id', isAuthenticated, async (req, res) => {
-    const { body, statusCode } = await DeleteOrderController({
-        params: req.params.id,
-    });
-    return res.status(statusCode).json(body);
+OrderRoutes.delete('/order/:id', isAuthenticated, async (request, response) => {
+    const params = z.object({ id: z.string() }).parse(request.params);
+
+    const order = await orderController.delete(params);
+    return response.status(StatusCodes.OK).json(order);
 });
