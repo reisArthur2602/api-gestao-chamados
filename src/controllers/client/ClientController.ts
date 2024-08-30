@@ -5,7 +5,7 @@ import { IListClients } from '../../domain/models/client/IListClients';
 import { IUpdateClient } from '../../domain/models/client/IUpdateClient';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { ConflictError } from '../../helpers/error';
-import ClientRepository from '../../repository/client/ClientRepository';
+import ClientRepository from '../../repository/client/ClientRepositories';
 
 class ClientController {
     constructor() {
