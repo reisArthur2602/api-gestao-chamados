@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 
 import { z } from 'zod';
-import { BadRequestError, NotFoundError } from '../helpers/error';
 import ClientController from '../controllers/client/ClientController';
 import { StatusCodes } from 'http-status-codes';
 
@@ -19,8 +18,6 @@ ClientRoutes.post('/client', isAuthenticated, async (request, response) => {
             cpf: z.string().length(11).trim(),
         })
         .parse(request.body);
-
-    if (!body) throw new BadRequestError('Preencha os dados corretamente');
 
     const client = await clientController.create({
         ...body,
@@ -44,8 +41,6 @@ ClientRoutes.delete(
             .object({ id: z.string().min(1) })
             .parse(request.params);
 
-        if (!params)
-            throw new NotFoundError('Envie o ID do cliente que deseja deletar');
         const client = await clientController.delete(params);
         return response.status(StatusCodes.OK).json(client);
     }
@@ -59,6 +54,7 @@ ClientRoutes.patch('/client', isAuthenticated, async (request, response) => {
             telefone: z.string().min(11),
         })
         .parse(request.body);
+
     const client = await clientController.update(body);
     return response.status(StatusCodes.OK).json(client);
 });
