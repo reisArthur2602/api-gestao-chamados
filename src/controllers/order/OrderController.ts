@@ -6,7 +6,7 @@ import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { IOrderRepository } from '../../domain/repository/IOrderRepository';
 import { NotFoundError } from '../../helpers/error';
 import ClientRepository from '../../repository/client/ClientRepositories';
-import OrderRepository from '../../repository/order/OrderRepository';
+import OrderRepository from '../../repository/order/OrderRepositories';
 
 class OrderController {
     constructor() {

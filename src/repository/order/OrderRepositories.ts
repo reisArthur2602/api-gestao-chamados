@@ -1,6 +1,7 @@
 import { db } from '../../database/Client';
 import { ICreateOrder } from '../../domain/models/order/ICreateOrder';
 import { IDeleteOrder } from '../../domain/models/order/IDeleteOrder';
+
 import { IListOrders } from '../../domain/models/order/IListOrders';
 import { IOrder } from '../../domain/models/order/IOrder';
 import { IOrderRepository } from '../../domain/repository/IOrderRepository';
@@ -27,5 +28,6 @@ class OrderRepository implements IOrderRepository {
         const orders = await db.order.findMany({ where: { userId } });
         return orders;
     }
+
 }
 export default OrderRepository;

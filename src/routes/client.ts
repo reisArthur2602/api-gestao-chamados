@@ -8,7 +8,7 @@ import { StatusCodes } from 'http-status-codes';
 export const ClientRoutes = Router();
 const clientController = new ClientController();
 
-ClientRoutes.post('/client', isAuthenticated, async (request, response) => {
+ClientRoutes.post('/', isAuthenticated, async (request, response) => {
     const body = z
         .object({
             name: z.string().min(1).trim().toLowerCase(),
@@ -27,14 +27,14 @@ ClientRoutes.post('/client', isAuthenticated, async (request, response) => {
     return response.status(StatusCodes.CREATED).json(client);
 });
 
-ClientRoutes.get('/client', isAuthenticated, async (request, response) => {
+ClientRoutes.get('/', isAuthenticated, async (request, response) => {
     const clients = await clientController.list({ userId: request.userId });
 
     return response.status(StatusCodes.OK).json(clients);
 });
 
 ClientRoutes.delete(
-    '/client/:id',
+    '/:id',
     isAuthenticated,
     async (request, response) => {
         const params = z
@@ -46,7 +46,7 @@ ClientRoutes.delete(
     }
 );
 
-ClientRoutes.patch('/client', isAuthenticated, async (request, response) => {
+ClientRoutes.patch('/', isAuthenticated, async (request, response) => {
     const body = z
         .object({
             id: z.string().min(1),

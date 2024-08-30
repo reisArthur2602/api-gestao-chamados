@@ -3,7 +3,7 @@ import 'express-async-errors';
 
 import express from 'express';
 import cors from 'cors';
-import { ClientRoutes, OrderRoutes, UserRoutes } from './routes';
+import routes from './routes';
 import { hasError } from './middlewares/hasError';
 
 const app = express();
@@ -11,10 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// routes
-app.use(UserRoutes);
-app.use(ClientRoutes);
-app.use(OrderRoutes);
+app.use(routes);
 
 app.use(hasError);
 

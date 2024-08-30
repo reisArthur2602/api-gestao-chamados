@@ -13,5 +13,6 @@ export interface IOrderRepository {
         userId,
     }: ICreateOrder): Promise<IOrder>;
     delete({ id }: IDeleteOrder): Promise<IOrder>;
+
     list({ userId }: IListOrders): Promise<IOrder[] | []>;
 }
