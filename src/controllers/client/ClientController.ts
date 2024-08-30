@@ -2,6 +2,7 @@ import { IClient } from '../../domain/models/client/IClient';
 import { ICreateClient } from '../../domain/models/client/ICreateClient';
 import { IDeleteClient } from '../../domain/models/client/IDeleteClients';
 import { IListClients } from '../../domain/models/client/IListClients';
+import { IUpdateClient } from '../../domain/models/client/IUpdateClient';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { ConflictError } from '../../helpers/error';
 import ClientRepository from '../../repository/client/ClientRepository';
@@ -38,7 +39,7 @@ class ClientController {
         const cpfExists = await this.clientRepository.findByCPF({ cpf });
 
         if (cpfExists)
-            throw new ConflictError('Este TCPF já esta associado a um cliente');
+            throw new ConflictError('Este CPF já esta associado a um cliente');
 
         const client = await this.clientRepository.create({
             address,
@@ -58,6 +59,26 @@ class ClientController {
 
     async delete({ id }: IDeleteClient): Promise<IClient> {
         const clients = await this.clientRepository.remove({ id });
+        return clients;
+    }
+
+    async update({ id, address, telefone }: IUpdateClient): Promise<IClient> {
+        const TelefoneExists = await this.clientRepository.findByPhone({
+            telefone,
+        });
+        if (TelefoneExists) {
+            if (TelefoneExists.id !== id)
+                throw new ConflictError(
+                    'Este Telefone já está associado a um cliente'
+                );
+        }
+
+        const clients = await this.clientRepository.update({
+            id,
+            address,
+            telefone,
+        });
+
         return clients;
     }
 }

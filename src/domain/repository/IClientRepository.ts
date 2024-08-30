@@ -5,6 +5,7 @@ import { IFindByCPF } from '../models/client/IFindByCPF';
 import { IFindByEmail } from '../models/client/IFindByEmail';
 import { IFindByPhone } from '../models/client/IFindByPhone';
 import { IListClients } from '../models/client/IListClients';
+import { IUpdateClient } from '../models/client/IUpdateClient';
 
 export interface IClientRepository {
     findByEmail({ email }: IFindByEmail): Promise<IClient | null>;
@@ -20,4 +21,5 @@ export interface IClientRepository {
         userId,
     }: ICreateClient): Promise<IClient>;
     remove({ id }: IDeleteClient): Promise<IClient>;
+    update({ address, id, telefone }: IUpdateClient): Promise<IClient>;
 }

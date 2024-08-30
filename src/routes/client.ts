@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
-import { UpdateClientController } from '../controllers/client';
+
 import { z } from 'zod';
 import { BadRequestError, NotFoundError } from '../helpers/error';
 import ClientController from '../controllers/client/ClientController';
@@ -51,10 +51,14 @@ ClientRoutes.delete(
     }
 );
 
-ClientRoutes.patch('/client/:id', isAuthenticated, async (req, res) => {
-    const { statusCode, body } = await UpdateClientController({
-        params: req.params.id,
-        body: req.body,
-    });
-    return res.status(statusCode).json(body);
+ClientRoutes.patch('/client', isAuthenticated, async (request, response) => {
+    const body = z
+        .object({
+            id: z.string().min(1),
+            address: z.string().min(1),
+            telefone: z.string().min(11),
+        })
+        .parse(request.body);
+    const client = await clientController.update(body);
+    return response.status(StatusCodes.OK).json(client);
 });

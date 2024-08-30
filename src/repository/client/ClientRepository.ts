@@ -6,6 +6,7 @@ import { IFindByCPF } from '../../domain/models/client/IFindByCPF';
 import { IFindByEmail } from '../../domain/models/client/IFindByEmail';
 import { IFindByPhone } from '../../domain/models/client/IFindByPhone';
 import { IListClients } from '../../domain/models/client/IListClients';
+import { IUpdateClient } from '../../domain/models/client/IUpdateClient';
 
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 
@@ -45,6 +46,14 @@ class ClientRepository implements IClientRepository {
     }: ICreateClient): Promise<IClient> {
         const client = await db.client.create({
             data: { address, cpf, email, name, telefone, userId },
+        });
+        return client;
+    }
+
+    async update({ address, id, telefone }: IUpdateClient): Promise<IClient> {
+        const client = await db.client.update({
+            where: { id },
+            data: { address, telefone },
         });
         return client;
     }
