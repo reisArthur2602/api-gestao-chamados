@@ -4,6 +4,8 @@ import { ICreateClient } from '../../domain/models/client/ICreateClient';
 import { IFindByCPF } from '../../domain/models/client/IFindByCPF';
 import { IFindByEmail } from '../../domain/models/client/IFindByEmail';
 import { IFindByPhone } from '../../domain/models/client/IFindByPhone';
+import { IListClients } from '../../domain/models/client/IListClients';
+
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 
 class ClientRepository implements IClientRepository {
@@ -20,6 +22,11 @@ class ClientRepository implements IClientRepository {
     async findByPhone({ telefone }: IFindByPhone): Promise<IClient | null> {
         const client = await db.client.findUnique({ where: { telefone } });
         return client;
+    }
+
+    async listClients({ userId }: IListClients): Promise<IClient[] | []> {
+        const clients = await db.client.findMany({ where: { userId } });
+        return clients;
     }
 
     async create({

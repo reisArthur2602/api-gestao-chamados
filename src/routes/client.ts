@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 import {
     DeleteClientController,
-    GetAllClientController,
     UpdateClientController,
 } from '../controllers/client';
 import { z } from 'zod';
@@ -34,12 +33,10 @@ ClientRoutes.post('/client', isAuthenticated, async (request, response) => {
     return response.status(StatusCodes.CREATED).json(client);
 });
 
-ClientRoutes.get('/client', isAuthenticated, async (req, res) => {
-    const { statusCode, body } = await GetAllClientController({
-        userId: req.userId,
-    });
+ClientRoutes.get('/client', isAuthenticated, async (request, response) => {
+    const clients = await clientController.list({ userId: request.userId });
 
-    return res.status(statusCode).json(body);
+    return response.status(StatusCodes.OK).json(clients);
 });
 
 ClientRoutes.delete('/client/:id', isAuthenticated, async (req, res) => {

@@ -1,5 +1,6 @@
 import { IClient } from '../../domain/models/client/IClient';
 import { ICreateClient } from '../../domain/models/client/ICreateClient';
+import { IListClients } from '../../domain/models/client/IListClients';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { ConflictError } from '../../helpers/error';
 import ClientRepository from '../../repository/client/ClientRepository';
@@ -47,6 +48,11 @@ class ClientController {
             userId,
         });
         return client;
+    }
+
+    async list({ userId }: IListClients): Promise<IClient[] | []> {
+        const clients = await this.clientRepository.listClients({ userId });
+        return clients;
     }
 }
 
