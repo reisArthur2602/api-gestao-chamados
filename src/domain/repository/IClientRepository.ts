@@ -1,5 +1,6 @@
 import { IClient } from '../models/client/IClient';
 import { ICreateClient } from '../models/client/ICreateClient';
+import { IDeleteClient } from '../models/client/IDeleteClients';
 import { IFindByCPF } from '../models/client/IFindByCPF';
 import { IFindByEmail } from '../models/client/IFindByEmail';
 import { IFindByPhone } from '../models/client/IFindByPhone';
@@ -18,4 +19,5 @@ export interface IClientRepository {
         telefone,
         userId,
     }: ICreateClient): Promise<IClient>;
+    remove({ id }: IDeleteClient): Promise<IClient>;
 }

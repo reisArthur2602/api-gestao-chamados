@@ -1,11 +1,8 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
-import {
-    DeleteClientController,
-    UpdateClientController,
-} from '../controllers/client';
+import { UpdateClientController } from '../controllers/client';
 import { z } from 'zod';
-import { BadRequestError } from '../helpers/error';
+import { BadRequestError, NotFoundError } from '../helpers/error';
 import ClientController from '../controllers/client/ClientController';
 import { StatusCodes } from 'http-status-codes';
 
@@ -39,12 +36,20 @@ ClientRoutes.get('/client', isAuthenticated, async (request, response) => {
     return response.status(StatusCodes.OK).json(clients);
 });
 
-ClientRoutes.delete('/client/:id', isAuthenticated, async (req, res) => {
-    const { statusCode, body } = await DeleteClientController({
-        params: req.params.id,
-    });
-    return res.status(statusCode).json(body);
-});
+ClientRoutes.delete(
+    '/client/:id',
+    isAuthenticated,
+    async (request, response) => {
+        const params = z
+            .object({ id: z.string().min(1) })
+            .parse(request.params);
+
+        if (!params)
+            throw new NotFoundError('Envie o ID do cliente que deseja deletar');
+        const client = await clientController.delete(params);
+        return response.status(StatusCodes.OK).json(client);
+    }
+);
 
 ClientRoutes.patch('/client/:id', isAuthenticated, async (req, res) => {
     const { statusCode, body } = await UpdateClientController({

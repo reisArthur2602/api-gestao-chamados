@@ -1,5 +1,6 @@
 import { IClient } from '../../domain/models/client/IClient';
 import { ICreateClient } from '../../domain/models/client/ICreateClient';
+import { IDeleteClient } from '../../domain/models/client/IDeleteClients';
 import { IListClients } from '../../domain/models/client/IListClients';
 import { IClientRepository } from '../../domain/repository/IClientRepository';
 import { ConflictError } from '../../helpers/error';
@@ -52,6 +53,11 @@ class ClientController {
 
     async list({ userId }: IListClients): Promise<IClient[] | []> {
         const clients = await this.clientRepository.listClients({ userId });
+        return clients;
+    }
+
+    async delete({ id }: IDeleteClient): Promise<IClient> {
+        const clients = await this.clientRepository.remove({ id });
         return clients;
     }
 }
