@@ -1,5 +1,6 @@
-import { CategoryResponse } from "./Category";
-import { IUser } from "./user/IUser";
+import { CategoryResponse } from "../category/category.types";
+import { UserResponse } from "../user/user.types";
+
 
 export type OrderResponse = {
   id: string;
@@ -9,8 +10,8 @@ export type OrderResponse = {
   category_id: string;
   description: string;
   created_at: Date;
-  category?: CategoryResponse;
-  user?: Pick<IUser, "username">;
+  category: CategoryResponse;
+  user: Pick<UserResponse, "username">;
 };
 
 export type OrderRequest = {

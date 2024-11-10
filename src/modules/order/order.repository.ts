@@ -1,24 +1,22 @@
 import { db } from "../../database/Client";
-import { OrderRequest, OrderResponse } from "../../domain/models/Order";
+import { OrderRequest, OrderResponse } from "../order/order.types";
 
 export interface IOrderRepository {
-  create(data: OrderRequest): Promise<OrderResponse>;
-  finish(id: string): Promise<OrderResponse>;
-  delete(id: string): Promise<OrderResponse>;
+  create(data: OrderRequest): Promise<void>;
+  finish(id: string): Promise<void>;
+  delete(id: string): Promise<void>;
   list(): Promise<OrderResponse[] | []>;
 }
 
 class OrderRepository implements IOrderRepository {
-  async create(data: OrderRequest): Promise<OrderResponse> {
-    const order = await db.order.create({
+  async create(data: OrderRequest): Promise<void> {
+    await db.order.create({
       data,
     });
-    return order;
   }
 
-  async delete(id: string): Promise<OrderResponse> {
-    const client = await db.order.delete({ where: { id } });
-    return client;
+  async delete(id: string): Promise<void> {
+    await db.order.delete({ where: { id } });
   }
 
   async list(): Promise<OrderResponse[] | []> {
@@ -40,12 +38,11 @@ class OrderRepository implements IOrderRepository {
     return orders;
   }
 
-  async finish(id: string): Promise<OrderResponse> {
-    const client = await db.order.update({
+  async finish(id: string): Promise<void> {
+    await db.order.update({
       where: { id },
       data: { status: true },
     });
-    return client;
   }
 }
 
