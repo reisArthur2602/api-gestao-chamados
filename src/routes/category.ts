@@ -23,3 +23,11 @@ CategoryRoutes.get("/", isAuthenticated, async (request, response) => {
 
   return response.status(StatusCodes.OK).json(categories);
 });
+
+CategoryRoutes.delete("/", isAuthenticated, async (request, response) => {
+  const query = z.object({ id: z.string().min(1) }).parse(request.query);
+
+  const category = await categoryController.remove(query.id);
+
+  return response.status(StatusCodes.OK).json(category);
+});

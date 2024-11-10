@@ -2,7 +2,7 @@ import {
   CategoryRequest,
   CategoryResponse,
 } from "../../domain/models/Category";
-import { ConflictError } from "../../helpers/error";
+import { ConflictError, NotFoundError } from "../../helpers/error";
 import {
   CategoryRepository,
   ICategoryRepository,
@@ -20,7 +20,7 @@ class CategoryController {
     );
 
     if (hasCategoryWithName) {
-      throw new ConflictError("Este nome já está associadoa uma categoria ");
+      throw new ConflictError("Este nome já está associado a uma categoria ");
     }
 
     const category = await this.categoryRepository.create(data);
@@ -31,6 +31,17 @@ class CategoryController {
   async list(): Promise<CategoryResponse[] | []> {
     const categories = await this.categoryRepository.list();
     return categories;
+  }
+  async remove(id: string): Promise<CategoryResponse> {
+    const hasCategoryWithId = await this.categoryRepository.findById(id);
+
+    if (!hasCategoryWithId) {
+      throw new NotFoundError("A categoria não foi encontrada");
+    }
+
+    const category = await this.categoryRepository.remove(id);
+
+    return category;
   }
 }
 export default CategoryController;
