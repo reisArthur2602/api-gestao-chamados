@@ -26,15 +26,20 @@ OrderRoutes.post("/", isAuthenticated, async (request, response) => {
 });
 
 OrderRoutes.get("/", isAuthenticated, async (request, response) => {
-  const orders = await orderController.list({
-    userId: request.userId,
-  });
+  const orders = await orderController.list();
   return response.status(StatusCodes.OK).json(orders);
 });
 
 OrderRoutes.delete("/:id", isAuthenticated, async (request, response) => {
   const params = z.object({ id: z.string() }).parse(request.params);
 
-  const order = await orderController.delete(params);
+  const order = await orderController.delete(params.id);
+  return response.status(StatusCodes.OK).json(order);
+});
+
+OrderRoutes.patch("/finish", isAuthenticated, async (request, response) => {
+  const query = z.object({ id: z.string().min(1) }).parse(request.query);
+
+  const order = await orderController.finish(query.id);
   return response.status(StatusCodes.OK).json(order);
 });

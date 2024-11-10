@@ -1,8 +1,5 @@
 import { OrderRequest, OrderResponse } from "../../domain/models/Order";
 
-import { IDeleteOrder } from "../../domain/models/order/IDeleteOrder";
-import { IListOrders } from "../../domain/models/order/IListOrders";
-
 import { NotFoundError } from "../../helpers/error";
 import ClientRepository, {
   IClientRepository,
@@ -31,13 +28,17 @@ class OrderController {
     return order;
   }
 
-  async delete({ id }: IDeleteOrder): Promise<OrderResponse> {
-    const order = this.orderRepository.delete(id);
+  async delete(id: string): Promise<OrderResponse> {
+    const order = await this.orderRepository.delete(id);
     return order;
   }
-  async list({ userId }: IListOrders): Promise<OrderResponse[] | []> {
-    const orders = this.orderRepository.list();
+  async list(): Promise<OrderResponse[] | []> {
+    const orders = await this.orderRepository.list();
     return orders;
+  }
+  async finish(id: string): Promise<OrderResponse> {
+    const order = await this.orderRepository.finish(id);
+    return order;
   }
 }
 export default OrderController;

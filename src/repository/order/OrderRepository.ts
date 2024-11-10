@@ -3,6 +3,7 @@ import { OrderRequest, OrderResponse } from "../../domain/models/Order";
 
 export interface IOrderRepository {
   create(data: OrderRequest): Promise<OrderResponse>;
+  finish(id: string): Promise<OrderResponse>;
   delete(id: string): Promise<OrderResponse>;
   list(): Promise<OrderResponse[] | []>;
 }
@@ -38,5 +39,14 @@ class OrderRepository implements IOrderRepository {
     });
     return orders;
   }
+
+  async finish(id: string): Promise<OrderResponse> {
+    const client = await db.order.update({
+      where: { id },
+      data: { status: true },
+    });
+    return client;
+  }
 }
+
 export { OrderRepository };
