@@ -21,13 +21,13 @@ class OrderController {
   private clientRepository: IClientRepository;
 
   async create(data: OrderRequest): Promise<OrderResponse> {
-    const hasClientWithId = await this.clientRepository.findById(data.userId);
-
+    const hasClientWithId = await this.clientRepository.findById(data.clientId);
     if (!hasClientWithId) {
       throw new NotFoundError("O cliente não foi encontrado");
     }
 
     const order = await this.orderRepository.create(data);
+
     return order;
   }
 

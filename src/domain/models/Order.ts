@@ -10,7 +10,7 @@ export type OrderResponse = {
   description: string;
   created_at: Date;
   category?: CategoryResponse;
-  user?: IUser;
+  user?: Pick<IUser, "username">;
 };
 
 export type OrderRequest = {

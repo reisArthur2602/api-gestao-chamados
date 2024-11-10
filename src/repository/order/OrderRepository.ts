@@ -19,9 +19,22 @@ class OrderRepository implements IOrderRepository {
     const client = await db.order.delete({ where: { id } });
     return client;
   }
+
   async list(): Promise<OrderResponse[] | []> {
     const orders = await db.order.findMany({
-      include: { category: true, user: true },
+      select: {
+        id: true,
+        clientId: true,
+        userId: true,
+        status: true,
+        category_id: true,
+        description: true,
+        created_at: true,
+        category: true,
+        user: {
+          select: { username: true },
+        },
+      },
     });
     return orders;
   }
