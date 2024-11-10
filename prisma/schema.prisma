@@ -14,28 +14,45 @@ model User {
   username String
   clients  Client[]
   orders   Order[]
+
+  @@map("users")
 }
 
 model Client {
-  id       String  @id @default(uuid())
-  name     String
-  email    String  @unique
-  cpf      String  @unique
-  address  String
-  telefone String  @unique
-  userId   String
-  user     User    @relation(fields: [userId], references: [id])
-  orders   Order[]
+  id      String  @id @default(uuid())
+  name    String
+  email   String  @unique
+  cpf     String  @unique
+  address String
+  phone   String  @unique
+  userId  String
+  user    User    @relation(fields: [userId], references: [id])
+  orders  Order[]
+
+  @@map("clients")
 }
 
 model Order {
   id          String   @id @default(uuid())
   clientId    String
-  subject     String
-  status      String
-  date        DateTime @default(now())
-  description String
   userId      String
+  category_id String
+  subject     String
+  status      Boolean
+  created_at  DateTime @default(now())
+  description String
   client      Client   @relation(fields: [clientId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
+  category    Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("orders")
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now())
+  orders     Order[]
+
+  @@map("categories")
 }
