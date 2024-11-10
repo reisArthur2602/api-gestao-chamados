@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 import { CreateCategorySchema, RemoveCategorySchema } from "./category.schema";
 import CategoryController from "./category.controller";

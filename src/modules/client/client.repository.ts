@@ -1,5 +1,5 @@
 import { db } from "../../database/Client";
-import { ClientRequest, ClientResponse } from "../../domain/models/Client";
+import { ClientRequest, ClientResponse } from "../client/client.types";
 
 export interface IClientRepository {
   findByEmail(email: string): Promise<ClientResponse | null>;
@@ -7,9 +7,9 @@ export interface IClientRepository {
   findByPhone(phone: string): Promise<ClientResponse | null>;
   findById(id: string): Promise<ClientResponse | null>;
   listClients(): Promise<ClientResponse[] | []>;
-  create(data: ClientRequest): Promise<ClientResponse>;
-  remove(id: string): Promise<ClientResponse>;
-  update(data: Omit<ClientResponse, "userId">): Promise<ClientResponse>;
+  create(data: ClientRequest): Promise<void>;
+  remove(id: string): Promise<void>;
+  update(data: Omit<ClientResponse, "userId">): Promise<void>;
 }
 
 class ClientRepository implements IClientRepository {
@@ -38,24 +38,21 @@ class ClientRepository implements IClientRepository {
     return clients;
   }
 
-  async remove(id: string): Promise<ClientResponse> {
-    const client = await db.client.delete({ where: { id } });
-    return client;
+  async remove(id: string): Promise<void> {
+    await db.client.delete({ where: { id } });
   }
 
-  async create(data: ClientRequest): Promise<ClientResponse> {
-    const client = await db.client.create({
+  async create(data: ClientRequest): Promise<void> {
+    await db.client.create({
       data,
     });
-    return client;
   }
 
-  async update(data: ClientResponse): Promise<ClientResponse> {
-    const client = await db.client.update({
+  async update(data: ClientResponse): Promise<void> {
+    await db.client.update({
       where: { id: data.id },
       data: data,
     });
-    return client;
   }
 }
 
