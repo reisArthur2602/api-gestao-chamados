@@ -1,12 +1,6 @@
-import {
-  CategoryRequest,
-  CategoryResponse,
-} from "../../domain/models/Category";
 import { ConflictError, NotFoundError } from "../../helpers/error";
-import {
-  CategoryRepository,
-  ICategoryRepository,
-} from "../../repository/category/CategoryRepository";
+import { CategoryRepository, ICategoryRepository } from "./category.repository";
+import { CategoryRequest, CategoryResponse } from "./category.types";
 
 class CategoryController {
   constructor() {
@@ -14,34 +8,31 @@ class CategoryController {
   }
   private categoryRepository: ICategoryRepository;
 
-  async create(data: CategoryRequest): Promise<CategoryResponse> {
+  async create(data: CategoryRequest): Promise<void> {
     const hasCategoryWithName = await this.categoryRepository.findByName(
       data.name
     );
 
     if (hasCategoryWithName) {
-      throw new ConflictError("Este nome já está associado a uma categoria ");
+      throw new ConflictError("CATEGORY_NAME_ALREADY_EXISTS");
     }
 
-    const category = await this.categoryRepository.create(data);
-
-    return category;
+    await this.categoryRepository.create(data);
   }
 
   async list(): Promise<CategoryResponse[] | []> {
     const categories = await this.categoryRepository.list();
     return categories;
   }
-  async remove(id: string): Promise<CategoryResponse> {
+  
+  async remove(id: string): Promise<void> {
     const hasCategoryWithId = await this.categoryRepository.findById(id);
 
     if (!hasCategoryWithId) {
-      throw new NotFoundError("A categoria não foi encontrada");
+      throw new NotFoundError("CATEGORY_NOT_FOUND");
     }
 
-    const category = await this.categoryRepository.remove(id);
-
-    return category;
+    await this.categoryRepository.remove(id);
   }
 }
 export default CategoryController;
