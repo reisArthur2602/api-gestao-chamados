@@ -22,8 +22,8 @@ class ClientRepository implements IClientRepository {
         return client;
     }
 
-    async findByPhone({ telefone }: IFindByPhone): Promise<IClient | null> {
-        const client = await db.client.findUnique({ where: { telefone } });
+    async findByPhone({ phone }: IFindByPhone): Promise<IClient | null> {
+        const client = await db.client.findUnique({ where: { phone } });
         return client;
     }
 
@@ -47,19 +47,19 @@ class ClientRepository implements IClientRepository {
         cpf,
         email,
         name,
-        telefone,
+        phone,
         userId,
     }: ICreateClient): Promise<IClient> {
         const client = await db.client.create({
-            data: { address, cpf, email, name, telefone, userId },
+            data: { address, cpf, email, name, phone, userId },
         });
         return client;
     }
 
-    async update({ address, id, telefone }: IUpdateClient): Promise<IClient> {
+    async update({ address, id, phone }: IUpdateClient): Promise<IClient> {
         const client = await db.client.update({
             where: { id },
-            data: { address, telefone },
+            data: { address, phone },
         });
         return client;
     }

@@ -5,5 +5,5 @@ export interface IClient {
     address: string;
     userId: string;
     cpf: string;
-    telefone: string;
+    phone: string;
 }

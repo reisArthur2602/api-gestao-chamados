@@ -18,27 +18,28 @@ class ClientController {
         cpf,
         email,
         name,
-        telefone,
+        phone,
         userId,
     }: ICreateClient): Promise<IClient> {
-        const emailExists = await this.clientRepository.findByEmail({ email });
-        if (emailExists)
+        const hasClientWithEmail = await this.clientRepository.findByEmail({ email });
+
+        if (hasClientWithEmail)
             throw new ConflictError(
                 'Este email já esta associado a um cliente'
             );
 
-        const phoneExists = await this.clientRepository.findByPhone({
-            telefone,
+        const hasClientWithPhone = await this.clientRepository.findByPhone({
+            phone,
         });
 
-        if (phoneExists)
+        if (hasClientWithPhone)
             throw new ConflictError(
                 'Este Telefone já esta associado a um cliente'
             );
 
-        const cpfExists = await this.clientRepository.findByCPF({ cpf });
+        const hasClientWithCPF = await this.clientRepository.findByCPF({ cpf });
 
-        if (cpfExists)
+        if (hasClientWithCPF)
             throw new ConflictError('Este CPF já esta associado a um cliente');
 
         const client = await this.clientRepository.create({
@@ -46,9 +47,10 @@ class ClientController {
             cpf,
             email,
             name,
-            telefone,
+            phone,
             userId,
         });
+
         return client;
     }
 
@@ -62,9 +64,9 @@ class ClientController {
         return clients;
     }
 
-    async update({ id, address, telefone }: IUpdateClient): Promise<IClient> {
+    async update({ id, address, phone }: IUpdateClient): Promise<IClient> {
         const TelefoneExists = await this.clientRepository.findByPhone({
-            telefone,
+            phone,
         });
         if (TelefoneExists) {
             if (TelefoneExists.id !== id)
@@ -76,7 +78,7 @@ class ClientController {
         const clients = await this.clientRepository.update({
             id,
             address,
-            telefone,
+            phone,
         });
 
         return clients;

@@ -6,6 +6,7 @@ import ClientController from '../controllers/client/ClientController';
 import { StatusCodes } from 'http-status-codes';
 
 export const ClientRoutes = Router();
+
 const clientController = new ClientController();
 
 ClientRoutes.post('/', isAuthenticated, async (request, response) => {
@@ -14,7 +15,7 @@ ClientRoutes.post('/', isAuthenticated, async (request, response) => {
             name: z.string().min(1).trim().toLowerCase(),
             email: z.string().min(1).email().trim(),
             address: z.string().min(1).toLowerCase(),
-            telefone: z.string().length(11).trim(),
+            phone: z.string().length(11).trim(),
             cpf: z.string().length(11).trim(),
         })
         .parse(request.body);
@@ -51,7 +52,7 @@ ClientRoutes.patch('/', isAuthenticated, async (request, response) => {
         .object({
             id: z.string().min(1),
             address: z.string().min(1),
-            telefone: z.string().min(11),
+            phone: z.string().min(11),
         })
         .parse(request.body);
 

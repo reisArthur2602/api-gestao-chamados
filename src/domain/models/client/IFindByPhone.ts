@@ -1,3 +1,3 @@
 export interface IFindByPhone {
-    telefone: string;
+    phone: string;
 }
