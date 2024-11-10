@@ -18,7 +18,7 @@ class OrderController {
     const hasClientWithId = await this.clientRepository.findById(data.clientId);
 
     if (!hasClientWithId) {
-      throw new NotFoundError("O cliente não foi encontrado");
+      throw new NotFoundError("CLIENT_NOT_FOUND");
     }
 
     await this.orderRepository.create(data);

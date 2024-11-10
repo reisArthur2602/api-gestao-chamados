@@ -1,4 +1,4 @@
-import { db } from "../../database/Client";
+import { db } from "../../database/prisma";
 import { OrderRequest, OrderResponse } from "../order/order.types";
 
 export interface IOrderRepository {

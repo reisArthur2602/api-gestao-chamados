@@ -38,9 +38,9 @@ model Order {
   clientId    String
   userId      String
   category_id String
-  status      Boolean  @default(false)
-  created_at  DateTime @default(now())
   description String
+  created_at  DateTime @default(now())
+  status      Boolean  @default(false)
   client      Client   @relation(fields: [clientId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
   category    Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)

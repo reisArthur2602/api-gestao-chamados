@@ -1,13 +1,13 @@
 {
-  "name": "help-dev",
+  "name": "orders",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/http/server.ts",
     "build": "tsup src",
     "start": "node dist/server.js"
   },

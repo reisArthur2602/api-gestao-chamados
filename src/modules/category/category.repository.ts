@@ -1,4 +1,4 @@
-import { db } from "../../database/Client";
+import { db } from "../../database/prisma";
 import { CategoryRequest, CategoryResponse } from "./category.types";
 
 export interface ICategoryRepository {

@@ -1,4 +1,4 @@
-import { db } from "../../database/Client";
+import { db } from "../../database/prisma";
 import { ClientRequest, ClientResponse } from "../client/client.types";
 
 export interface IClientRepository {

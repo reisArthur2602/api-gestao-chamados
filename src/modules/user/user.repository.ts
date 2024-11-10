@@ -1,4 +1,4 @@
-import { db } from "../../database/Client";
+import { db } from "../../database/prisma";
 import { UserRequest, UserResponse } from "./user.types";
 
 export interface IUserRepository {
