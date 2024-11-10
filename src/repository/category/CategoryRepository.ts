@@ -6,6 +6,7 @@ import {
 
 export interface ICategoryRepository {
   create(data: CategoryRequest): Promise<CategoryResponse>;
+  list(): Promise<CategoryResponse[] | []>;
   findByName(name: string): Promise<CategoryResponse | null>;
 }
 
@@ -18,6 +19,10 @@ class CategoryRepository implements ICategoryRepository {
   async findByName(name: string): Promise<CategoryResponse | null> {
     const category = await db.category.findFirst({ where: { name } });
     return category;
+  }
+  async list(): Promise<CategoryResponse[] | []> {
+    const categories = await db.category.findMany();
+    return categories;
   }
 }
 export { CategoryRepository };

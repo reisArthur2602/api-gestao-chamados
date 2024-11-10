@@ -17,3 +17,9 @@ CategoryRoutes.post("/", isAuthenticated, async (request, response) => {
 
   return response.status(StatusCodes.CREATED).json(category);
 });
+
+CategoryRoutes.get("/", isAuthenticated, async (request, response) => {
+  const categories = await categoryController.list();
+
+  return response.status(StatusCodes.OK).json(categories);
+});

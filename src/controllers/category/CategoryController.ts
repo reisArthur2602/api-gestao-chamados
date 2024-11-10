@@ -27,5 +27,10 @@ class CategoryController {
 
     return category;
   }
+
+  async list(): Promise<CategoryResponse[] | []> {
+    const categories = await this.categoryRepository.list();
+    return categories;
+  }
 }
 export default CategoryController;
