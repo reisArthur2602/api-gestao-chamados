@@ -6,6 +6,7 @@ export interface IOrderRepository {
   finish(id: string): Promise<void>;
   delete(id: string): Promise<void>;
   list(): Promise<OrderResponse[] | []>;
+  findById(id: string): Promise<OrderResponse | null>;
 }
 
 class OrderRepository implements IOrderRepository {
@@ -43,6 +44,26 @@ class OrderRepository implements IOrderRepository {
       where: { id },
       data: { status: true },
     });
+  }
+
+  async findById(id: string): Promise<OrderResponse | null> {
+    const order = await db.order.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        clientId: true,
+        userId: true,
+        status: true,
+        category_id: true,
+        description: true,
+        created_at: true,
+        category: true,
+        user: {
+          select: { username: true },
+        },
+      },
+    });
+    return order;
   }
 }
 
