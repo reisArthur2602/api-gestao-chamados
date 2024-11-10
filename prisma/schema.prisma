@@ -28,6 +28,7 @@ model Client {
   userId  String
   user    User    @relation(fields: [userId], references: [id])
   orders  Order[]
+  created_at  DateTime @default(now())
 
   @@map("clients")
 }
