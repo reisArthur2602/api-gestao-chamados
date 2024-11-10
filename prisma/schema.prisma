@@ -19,16 +19,16 @@ model User {
 }
 
 model Client {
-  id      String  @id @default(uuid())
-  name    String
-  email   String  @unique
-  cpf     String  @unique
-  address String
-  phone   String  @unique
-  userId  String
-  user    User    @relation(fields: [userId], references: [id])
-  orders  Order[]
-  created_at  DateTime @default(now())
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  cpf        String   @unique
+  address    String
+  phone      String   @unique
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  orders     Order[]
+  created_at DateTime @default(now())
 
   @@map("clients")
 }
@@ -38,8 +38,7 @@ model Order {
   clientId    String
   userId      String
   category_id String
-  subject     String
-  status      Boolean
+  status      Boolean  @default(false)
   created_at  DateTime @default(now())
   description String
   client      Client   @relation(fields: [clientId], references: [id])
