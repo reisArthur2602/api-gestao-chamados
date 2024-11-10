@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { OrderRoutes } from "./order";
-import { UserRoutes } from "./user";
+
 import { ClientRoutes } from "./client";
 import { CategoryRoutes } from "./category";
+import { UserRoutes } from "../modules/user/user.routes";
 
 const routes = Router();
 routes.use("/order", OrderRoutes);
