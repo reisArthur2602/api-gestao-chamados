@@ -1,4 +1,9 @@
 import {
+  CategoryRequest,
+  CategoryResponse,
+} from "../../domain/models/Category";
+import { ConflictError } from "../../helpers/error";
+import {
   CategoryRepository,
   ICategoryRepository,
 } from "../../repository/category/CategoryRepository";
@@ -9,6 +14,18 @@ class CategoryController {
   }
   private categoryRepository: ICategoryRepository;
 
-  async create(): Promise<void> {}
+  async create(data: CategoryRequest): Promise<CategoryResponse> {
+    const hasCategoryWithName = await this.categoryRepository.findByName(
+      data.name
+    );
+
+    if (hasCategoryWithName) {
+      throw new ConflictError("Este nome já está associadoa uma categoria ");
+    }
+
+    const category = await this.categoryRepository.create(data);
+
+    return category;
+  }
 }
 export default CategoryController;

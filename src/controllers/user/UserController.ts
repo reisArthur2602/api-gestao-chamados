@@ -1,4 +1,4 @@
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { ICreateSessionUser } from "../../domain/models/user/ICreateSessionUser";
 import { ICreateUser } from "../../domain/models/user/ICreateUser";
 import { IUser } from "../../domain/models/user/IUser";
@@ -25,11 +25,14 @@ class UserController {
     if (hasUserWithEmail)
       throw new ConflictError("Este email já está associado a um usuário");
 
+    const passwordHash = await hash(password, 8);
+
     const user = await this.userRepository.create({
       email,
-      password,
+      password: passwordHash,
       username,
     });
+
     return user;
   }
 
@@ -43,7 +46,7 @@ class UserController {
       throw new NotFoundError("O Usuário não foi encontrado");
 
     const passwordMatch = await compare(password, hasUserWithEmail.password);
-    
+
     if (!passwordMatch) throw new UnauthorizedError("A senha está incorreta");
 
     const keyJWT = process.env.JWT_SECRET as string;
