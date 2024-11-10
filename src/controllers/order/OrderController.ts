@@ -1,49 +1,43 @@
-import { ICreateOrder } from '../../domain/models/order/ICreateOrder';
-import { IDeleteOrder } from '../../domain/models/order/IDeleteOrder';
-import { IListOrders } from '../../domain/models/order/IListOrders';
-import { IOrder } from '../../domain/models/order/IOrder';
-import { IClientRepository } from '../../domain/repository/IClientRepository';
-import { IOrderRepository } from '../../domain/repository/IOrderRepository';
-import { NotFoundError } from '../../helpers/error';
-import ClientRepository from '../../repository/client/ClientRepository';
-import OrderRepository from '../../repository/order/OrderRepositories';
+import { OrderRequest, OrderResponse } from "../../domain/models/Order";
+
+import { IDeleteOrder } from "../../domain/models/order/IDeleteOrder";
+import { IListOrders } from "../../domain/models/order/IListOrders";
+
+import { NotFoundError } from "../../helpers/error";
+import ClientRepository, {
+  IClientRepository,
+} from "../../repository/client/ClientRepository";
+import {
+  IOrderRepository,
+  OrderRepository,
+} from "../../repository/order/OrderRepository";
 
 class OrderController {
-    constructor() {
-        this.orderRepository = new OrderRepository();
-        this.clientRepository = new ClientRepository();
-    }
-    private orderRepository: IOrderRepository;
-    private clientRepository: IClientRepository;
+  constructor() {
+    this.orderRepository = new OrderRepository();
+    this.clientRepository = new ClientRepository();
+  }
+  private orderRepository: IOrderRepository;
+  private clientRepository: IClientRepository;
 
-    async create({
-        clientId,
-        description,
-        status,
-        subject,
-        userId,
-    }: ICreateOrder): Promise<IOrder> {
-        const client = await this.clientRepository.findById({ id: clientId });
+  async create(data: OrderRequest): Promise<OrderResponse> {
+    const hasClientWithId = await this.clientRepository.findById(data.userId);
 
-        if (!client) throw new NotFoundError('O Cliente não foi encontrado');
-
-        const order = await this.orderRepository.create({
-            clientId,
-            description,
-            status,
-            subject,
-            userId,
-        });
-        return order;
+    if (!hasClientWithId) {
+      throw new NotFoundError("O cliente não foi encontrado");
     }
 
-    async delete({ id }: IDeleteOrder): Promise<IOrder> {
-        const order = this.orderRepository.delete({ id });
-        return order;
-    }
-    async list({ userId }: IListOrders): Promise<IOrder[] | []> {
-        const orders = this.orderRepository.list({ userId });
-        return orders;
-    }
+    const order = await this.orderRepository.create(data);
+    return order;
+  }
+
+  async delete({ id }: IDeleteOrder): Promise<OrderResponse> {
+    const order = this.orderRepository.delete(id);
+    return order;
+  }
+  async list({ userId }: IListOrders): Promise<OrderResponse[] | []> {
+    const orders = this.orderRepository.list();
+    return orders;
+  }
 }
 export default OrderController;
