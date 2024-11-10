@@ -1,88 +1,63 @@
-import { IClient } from '../../domain/models/client/IClient';
-import { ICreateClient } from '../../domain/models/client/ICreateClient';
-import { IDeleteClient } from '../../domain/models/client/IDeleteClients';
-import { IListClients } from '../../domain/models/client/IListClients';
-import { IUpdateClient } from '../../domain/models/client/IUpdateClient';
-import { IClientRepository } from '../../domain/repository/IClientRepository';
-import { ConflictError } from '../../helpers/error';
-import ClientRepository from '../../repository/client/ClientRepositories';
+import { ClientRequest, ClientResponse } from "../../domain/models/Client";
+import { ConflictError } from "../../helpers/error";
+import ClientRepository, {
+  IClientRepository,
+} from "../../repository/client/ClientRepository";
 
 class ClientController {
-    constructor() {
-        this.clientRepository = new ClientRepository();
-    }
-    private clientRepository: IClientRepository;
+  constructor() {
+    this.clientRepository = new ClientRepository();
+  }
+  private clientRepository: IClientRepository;
 
-    async create({
-        address,
-        cpf,
-        email,
-        name,
-        phone,
-        userId,
-    }: ICreateClient): Promise<IClient> {
-        const hasClientWithEmail = await this.clientRepository.findByEmail({ email });
+  async create(data: ClientRequest): Promise<ClientResponse> {
+    const hasClientWithEmail = await this.clientRepository.findByEmail(
+      data.email
+    );
 
-        if (hasClientWithEmail)
-            throw new ConflictError(
-                'Este email já esta associado a um cliente'
-            );
+    if (hasClientWithEmail)
+      throw new ConflictError("Este email já esta associado a um cliente");
 
-        const hasClientWithPhone = await this.clientRepository.findByPhone({
-            phone,
-        });
+    const hasClientWithPhone = await this.clientRepository.findByPhone(
+      data.phone
+    );
 
-        if (hasClientWithPhone)
-            throw new ConflictError(
-                'Este Telefone já esta associado a um cliente'
-            );
+    if (hasClientWithPhone)
+      throw new ConflictError("Este Telefone já esta associado a um cliente");
 
-        const hasClientWithCPF = await this.clientRepository.findByCPF({ cpf });
+    const hasClientWithCPF = await this.clientRepository.findByCPF(data.cpf);
 
-        if (hasClientWithCPF)
-            throw new ConflictError('Este CPF já esta associado a um cliente');
+    if (hasClientWithCPF)
+      throw new ConflictError("Este CPF já esta associado a um cliente");
 
-        const client = await this.clientRepository.create({
-            address,
-            cpf,
-            email,
-            name,
-            phone,
-            userId,
-        });
+    const client = await this.clientRepository.create(data);
 
-        return client;
-    }
+    return client;
+  }
 
-    async list({ userId }: IListClients): Promise<IClient[] | []> {
-        const clients = await this.clientRepository.listClients({ userId });
-        return clients;
+  async list(): Promise<ClientResponse[] | []> {
+    const clients = await this.clientRepository.listClients();
+    return clients;
+  }
+
+  async delete(id: string): Promise<ClientResponse> {
+    const clients = await this.clientRepository.remove(id);
+    return clients;
+  }
+
+  async update(data: Omit<ClientResponse, "userId">): Promise<ClientResponse> {
+    const hasClientWithPhone = await this.clientRepository.findByPhone(
+      data.phone
+    );
+    if (hasClientWithPhone) {
+      if (hasClientWithPhone.id !== data.id)
+        throw new ConflictError("Este telefone já está associado a um cliente");
     }
 
-    async delete({ id }: IDeleteClient): Promise<IClient> {
-        const clients = await this.clientRepository.remove({ id });
-        return clients;
-    }
+    const clients = await this.clientRepository.update(data);
 
-    async update({ id, address, phone }: IUpdateClient): Promise<IClient> {
-        const TelefoneExists = await this.clientRepository.findByPhone({
-            phone,
-        });
-        if (TelefoneExists) {
-            if (TelefoneExists.id !== id)
-                throw new ConflictError(
-                    'Este Telefone já está associado a um cliente'
-                );
-        }
-
-        const clients = await this.clientRepository.update({
-            id,
-            address,
-            phone,
-        });
-
-        return clients;
-    }
+    return clients;
+  }
 }
 
 export default ClientController;
