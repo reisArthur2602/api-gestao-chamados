@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "tsx watch src/http/server.ts",
     "build": "tsup src",
-    "start": "node dist/http/server.js"
+    "start": "node dist/http/server.js",
+    "prisma:seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

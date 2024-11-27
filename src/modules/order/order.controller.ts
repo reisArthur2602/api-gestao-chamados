@@ -1,4 +1,4 @@
-import { OrderRequest, OrderResponse } from "../order/order.types";
+import { ListOrderResponse, OrderRequest, OrderResponse } from "../order/order.types";
 
 import { NotFoundError } from "../../helpers/error";
 import ClientRepository, {
@@ -58,7 +58,7 @@ class OrderController {
     await this.orderRepository.finish(id);
   }
 
-  async list(): Promise<OrderResponse[] | []> {
+  async list(): Promise<ListOrderResponse[] | []> {
     const orders = await this.orderRepository.list();
     return orders;
   }
