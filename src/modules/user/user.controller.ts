@@ -39,8 +39,7 @@ class UserController {
   async session(data: SessionUserRequest): Promise<SessionUserResponse> {
     const hasUserWithEmail = await this.userRepository.findbyEmail(data.email);
 
-    if (!hasUserWithEmail)
-      throw new NotFoundError('USER_NOT_FOUND');
+    if (!hasUserWithEmail) throw new NotFoundError("USER_NOT_FOUND");
 
     const passwordMatch = await compare(
       data.password,

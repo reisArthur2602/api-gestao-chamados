@@ -7,6 +7,9 @@ export type ClientResponse = {
   cpf: string;
   phone: string;
 };
+
+export type EditClient = Partial<Omit<ClientResponse, "userId">>;
+
 export type ClientRequest = {
   name: string;
   email: string;

@@ -1,4 +1,8 @@
-import { ClientRequest, ClientResponse } from "../client/client.types";
+import {
+  ClientRequest,
+  ClientResponse,
+  EditClient,
+} from "../client/client.types";
 import { ConflictError } from "../../helpers/error";
 import ClientRepository, { IClientRepository } from "./client.repository";
 
@@ -43,14 +47,39 @@ class ClientController {
     await this.clientRepository.remove(id);
   }
 
-  async update(data: Omit<ClientResponse, "userId">): Promise<void> {
-    const hasClientWithPhone = await this.clientRepository.findByPhone(
-      data.phone
-    );
-    const isUniqueClientPhone = hasClientWithPhone?.id !== data.id;
+  async update(data: EditClient): Promise<void> {
+    if (data.phone) {
+      const hasClientWithPhone = await this.clientRepository.findByPhone(
+        data.phone
+      );
 
-    if (isUniqueClientPhone) {
-      throw new ConflictError("PHONE_ALREADY_EXISTS");
+      const isUniqueClientPhone = hasClientWithPhone?.id !== data.id;
+
+      if (isUniqueClientPhone) {
+        throw new ConflictError("PHONE_ALREADY_EXISTS");
+      }
+    }
+
+    if (data.email) {
+      const hasClientWithEmail = await this.clientRepository.findByEmail(
+        data.email
+      );
+
+      const isUniqueClientEmail = hasClientWithEmail?.id !== data.id;
+
+      if (isUniqueClientEmail) {
+        throw new ConflictError("EMAIL_ALREADY_EXISTS");
+      }
+    }
+
+    if (data.cpf) {
+      const hasClientWithCPF = await this.clientRepository.findByCPF(data.cpf);
+
+      const isUniqueClientCPF = hasClientWithCPF?.id !== data.id;
+
+      if (isUniqueClientCPF) {
+        throw new ConflictError("CPF_ALREADY_EXISTS");
+      }
     }
 
     await this.clientRepository.update(data);

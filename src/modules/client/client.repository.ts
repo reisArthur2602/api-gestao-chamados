@@ -1,5 +1,9 @@
 import { db } from "../../database/prisma";
-import { ClientRequest, ClientResponse } from "../client/client.types";
+import {
+  ClientRequest,
+  ClientResponse,
+  EditClient,
+} from "../client/client.types";
 
 export interface IClientRepository {
   findByEmail(email: string): Promise<ClientResponse | null>;
@@ -9,7 +13,7 @@ export interface IClientRepository {
   listClients(): Promise<ClientResponse[] | []>;
   create(data: ClientRequest): Promise<void>;
   remove(id: string): Promise<void>;
-  update(data: Omit<ClientResponse, "userId">): Promise<void>;
+  update(data: EditClient): Promise<void>;
 }
 
 class ClientRepository implements IClientRepository {
@@ -48,7 +52,7 @@ class ClientRepository implements IClientRepository {
     });
   }
 
-  async update(data: ClientResponse): Promise<void> {
+  async update(data: EditClient): Promise<void> {
     await db.client.update({
       where: { id: data.id },
       data: data,
