@@ -1,25 +1,40 @@
-<h1 align="center" style="font-weight: bold;">GESTÃO DE CHAMADOS - API 💻</h1>
+<h1 align="center" style="font-weight: bold;">Gestão de Chamados - API 💻</h1>
 
 <p align="center">
  <a href="#tech">Tecnologias</a> • 
+ <a href="#functional-requirements">Requisitos Funcionais</a> • 
  <a href="#started">Primeiros passos</a> • 
   <a href="#user-routes">User Endpoints</a> • 
   <a href="#category-routes">Category Endpoints</a> • 
-  <a href="#client-routes">Client Endpoints</a> 
-  <a href="#order-routes">Chamados Endpoints</a> 
+  <a href="#client-routes">Customers Endpoints</a> 
+  <a href="#order-routes">Orders Endpoints</a> 
 </p>
 
 <p align="center">
     <b>Desenvolvimento de uma api de gestão de chamados</b>
 </p>
 
-<h2 id="technologies">💻 Tecnologias</h2>
+<h2 id="tech">💻 Tecnologias</h2>
 
 - Node.js
 - Express
 - TypeScript
 - Prisma
 - PostgreSQL
+
+<h2 id="functional-requirements">📋 Requisitos Funcionais</h2>
+
+- Cadastro de usuários: Deve permitir o registro de novos usuários na aplicação.
+
+- Login e autenticação: Os usuários devem fazer login para acessar as funcionalidades.
+
+- Gerenciamento de categorias: Deve possibilitar criar, listar e deletar categorias.
+
+- Cadastro de clientes: Deve permitir o registro de clientes com informações básicas.
+
+- Gerenciamento de chamados: Deve ser possível registrar, listar, editar o status e deletar chamados.
+
+- Proteção de rotas: Apenas usuários autenticados podem acessar as rotas protegidas.
 
 <h2 id="started">🚀 Primeiros Passos</h2>
 
@@ -31,7 +46,7 @@
 <h3>Clone o Projeto</h3>
 
 ```bash
-git clone https://github.com/reisArthur2602/sistema-gestao-chamados
+git clone https://github.com/reisArthur2602/api-gestao-chamados
 ```
 
 <h3>Configure as váriaveis .env </h2>
@@ -41,7 +56,7 @@ Use o`.env.example` como referência para criar seu arquivo de configuração `.
 ```yaml
 PORT=PORT
 DATABASE_URL="postgresql://janedoe:mypassword@localhost:5432/mydb"
-JWT_SECRET=JWT_SECRET
+JWT_SECRET= JWT_SECRET
 ```
 
 <h3>Para iniciar o projeto</h3>
@@ -61,12 +76,12 @@ npm run dev
 | <kbd>POST /user/session</kbd>  | Realizar login do usuario [Detalhes da requisição](#post-session-detail)       |
 | <kbd>GET /user/me</kbd>        | Buscar informações do usuário logado [Detalhes da requisição](#details-detail) |
 
-<h3 id="post-register-detail">GET /user/register</h3>
+<h3 id="post-register-detail">POST /user/register</h3>
 
 **REQUEST**
 
 ```json
-{
+"body": {
   "email": "arthur@guest.com",
   "password": "123456",
   "username": "Arthur"
@@ -78,7 +93,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"body": {
   "email": "arthur@guest.com",
   "password": "123456"
 }
@@ -115,7 +130,7 @@ npm run dev
 
 | Rotas                           | Descrição                                                                 |
 | ------------------------------- | ------------------------------------------------------------------------- |
-| <kbd>POST /category</kbd>       | Criar uma novo categoria [Detalhes da requisição](#post-category-detail)  |
+| <kbd>POST /category</kbd>       | Criar uma nova categoria [Detalhes da requisição](#post-category-detail)  |
 | <kbd>GET /category</kbd>        | Buscar todas as categorias [Detalhes da requisição](#get-category-detail) |
 | <kbd>DELETE /category?id=</kbd> | Deletar uma categoria [Detalhes da requisição](#delete-category-detail)   |
 
@@ -124,7 +139,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"body": {
   "name": "Suporte Técnico"
 }
 ```
@@ -148,12 +163,12 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"query":{
   "id": "ab7b7036-c186-42e3-b139-84702909d848"
 }
 ```
 
-<h2 id="client-routes">📍 Client Endpoints</h2>
+<h2 id="client-routes">📍 Customer Endpoints</h2>
 
 | Rotas                         | Descrição                                                                    |
 | ----------------------------- | ---------------------------------------------------------------------------- |
@@ -167,7 +182,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"body":{
   "name": "Ana Costa",
   "email": "anacosta@guest.com",
   "address": "Avenida Yolando Fonseca - Jurema",
@@ -200,7 +215,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"query":{
   "id": "d57f7526-4d3e-4464-885e-461916f1a9c7"
 }
 ```
@@ -210,7 +225,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"body": {
   "id": "d57f7526-4d3e-4464-885e-461916f1a9c7",
   "name": "Ana Costa",
   "email": "anacosta@guest.com",
@@ -234,7 +249,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"body":{
   "category_id": "ab7b7036-c186-42e3-b139-84702909d848",
   "clientId": "d57f7526-4d3e-4464-885e-461916f1a9c7",
   "description": "Suporte técnico"
@@ -249,10 +264,7 @@ npm run dev
 [
   {
     "id": "d57f7526-4d3e-4464-885e-461916f1a9c7",
-    "clientId": "d57f7526-4d3e-4464-885e-461916f1a9c7",
-    "userId": "76888986-bca2-412c-81c9-e32201d60d99",
     "status": false,
-    "category_id": "ab7b7036-c186-42e3-b139-84702909d848",
     "description": "Suporte técnico",
     "created_at": "2024-11-10T05:14:42.366Z",
     "category": {
@@ -260,7 +272,16 @@ npm run dev
       "name": "suporte técnico",
       "created_at": "2024-11-10T04:28:17.147Z"
     },
+    "client": {
+      "id": "d57f7526-4d3e-4464-885e-461916f1a9c7",
+      "name": "Ana Costa",
+      "email": "anacosta@guest.com",
+      "address": "Avenida Yolando Fonseca - Jurema",
+      "phone": "2199953-3913",
+      "cpf": "11124349767"
+    },
     "user": {
+      "id": "76888986-bca2-412c-81c9-e32201d60d99",
       "username": "Arthur"
     }
   }
@@ -272,7 +293,7 @@ npm run dev
 **REQUEST**
 
 ```json
-{
+"query":{
   "id": "d57f7526-4d3e-4464-885e-461916f1a9c7"
 }
 ```

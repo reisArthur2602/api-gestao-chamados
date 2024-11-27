@@ -1,11 +1,15 @@
 import { db } from "../../database/prisma";
-import { OrderRequest, OrderResponse } from "../order/order.types";
+import {
+  ListOrderResponse,
+  OrderRequest,
+  OrderResponse,
+} from "../order/order.types";
 
 export interface IOrderRepository {
   create(data: OrderRequest): Promise<void>;
   finish(id: string): Promise<void>;
   delete(id: string): Promise<void>;
-  list(): Promise<OrderResponse[] | []>;
+  list(): Promise<ListOrderResponse[] | []>;
   findById(id: string): Promise<OrderResponse | null>;
 }
 
@@ -20,19 +24,18 @@ class OrderRepository implements IOrderRepository {
     await db.order.delete({ where: { id } });
   }
 
-  async list(): Promise<OrderResponse[] | []> {
+  async list(): Promise<ListOrderResponse[] | []> {
     const orders = await db.order.findMany({
       select: {
         id: true,
-        clientId: true,
         userId: true,
         status: true,
-        category_id: true,
         description: true,
         created_at: true,
         category: true,
+        client: true,
         user: {
-          select: { username: true },
+          select: { username: true, id: true },
         },
       },
     });
@@ -47,22 +50,7 @@ class OrderRepository implements IOrderRepository {
   }
 
   async findById(id: string): Promise<OrderResponse | null> {
-    const order = await db.order.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        clientId: true,
-        userId: true,
-        status: true,
-        category_id: true,
-        description: true,
-        created_at: true,
-        category: true,
-        user: {
-          select: { username: true },
-        },
-      },
-    });
+    const order = await db.order.findUnique({ where: { id } });
     return order;
   }
 }

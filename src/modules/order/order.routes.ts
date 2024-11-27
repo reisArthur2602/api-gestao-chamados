@@ -1,10 +1,12 @@
 import { Router } from "express";
 
-import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 import OrderController from "./order.controller";
-import { CreateOrderSchema, FinishOrderSchema, RemoveOrderSchema } from "./order.schema";
-import { EditClientSchema } from "../client/client.schema";
+import {
+  CreateOrderSchema,
+  FinishOrderSchema,
+  RemoveOrderSchema,
+} from "./order.schema";
 
 export const OrderRoutes = Router();
 const orderController = new OrderController();
