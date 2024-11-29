@@ -65,6 +65,7 @@ JWT_SECRET= JWT_SECRET
 cd nome-do-projeto
 npm install
 npx prisma migrate dev
+npm run prisma:seed
 npm run dev
 ```
 
